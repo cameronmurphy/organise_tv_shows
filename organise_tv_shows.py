@@ -191,9 +191,9 @@ class MediaOrganiser:
                 current_series_id, current_series_name = self.tvdb_client.get_series_info(current_series_name)
 
                 if current_series_id is None:
-                    sys.stderr.print(str(datetime.datetime.now()) +
-                                     ': Series not found for ' +
-                                     filename_without_extension)
+                    sys.stderr.write(
+                        '{0}: Series not found for {1}'.format(datetime.datetime.now(), filename_without_extension)
+                    )
                     continue
 
                 current_season_index, current_episode_index = self.apply_series_season_offsets(
