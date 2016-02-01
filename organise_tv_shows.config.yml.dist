@@ -21,7 +21,7 @@ parameters:
 #        - match:       'marvels agents of s h i e l d'
 #          replacement: 'marvels agents of s.h.i.e.l.d.'
 
-#    # When the releases for a given show refer to the current season as a greater number than thetvdb.com
+#    # When the releases for a given show refer to the current season as an earlier season than thetvdb.com
 #    series_season_offsets:
 #        # Production season 1 of American Dad! is 23 episodes but it was split after the 7th episode of Season 1 when
 #        # it aired. This will translate S01E08 -> S02E01, S01E09 -> S02E02 etc. After Season 2 only the season index
