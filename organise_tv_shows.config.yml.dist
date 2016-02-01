@@ -1,0 +1,31 @@
+parameters:
+    complete_downloads_path: '/Users/cam/Downloads/Complete'
+    library_path:            '/Volumes/TV Shows'
+    tvdb_api_key:            'A5292584A1E3E114'
+    md5_check:               false
+
+#    # If you want push notifications when episodes complete (example creds are fake)
+#    pushover:
+#        token:     '2VLYupzlHvpeP9STtoj14llF2YcJ4B'
+#        user_key:  '6kMh5eOOOKFSlLXTSmxv5A2eNImccK'
+#        device:    'cam-nexus-6p'                   # Optional
+#        ignore_hd: false                            # Optional (defaults to false), prevents sending out notifications for HD episodes
+
+#    # When a show is named differently to how thetvdb.com expects, override the title here
+#    # These are real examples of differences between showrss.info and thetvdb.com
+#    series_title_overrides:
+#        - match:       'once upon a time'
+#          replacement: 'once upon a time 2011'
+#        - match:       'scandal us'
+#          replacement: 'scandal 2012'
+#        - match:       'marvels agents of s h i e l d'
+#          replacement: 'marvels agents of s.h.i.e.l.d.'
+
+#    # When the releases for a given show refer to the current season as a greater number than thetvdb.com
+#    series_season_offsets:
+#        # Production season 1 of American Dad! is 23 episodes but it was split after the 7th episode of Season 1 when
+#        # it aired. This will translate S01E08 -> S02E01, S01E09 -> S02E02 etc. After Season 2 only the season index
+#        # will be translated i.e. S02E01 -> S03E01. You can specify multiple 'split points' for a given series_id.
+#        - series_id:           73141
+#          since_season_index:  1
+#          since_episode_index: 7
