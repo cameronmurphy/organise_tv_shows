@@ -17,9 +17,8 @@ DEFAULT_PARAMETERS_FILENAME = 'organise_tv_shows.config.yml'
 
 class TVDBClient:
     API_DOMAIN = 'https://thetvdb.com'
-    API_KEY = 'A5292584A1E3E114'
     API_OP_GET_SERIES = API_DOMAIN + '/api/GetSeries.php?seriesname='
-    API_OP_GET_EPISODE = API_DOMAIN + '/api/' + API_KEY + '/series/{0}/default/{1}/{2}'
+    API_OP_GET_EPISODE = API_DOMAIN + '/api/{0}/series/{1}/default/{2}/{3}'
     API_SERIES_ID_XPATH = './Series/seriesid'
     API_SERIES_NAME_XPATH = './Series/SeriesName'
     API_EPISODE_NAME_XPATH = './Episode/EpisodeName'
@@ -54,7 +53,7 @@ class TVDBClient:
         return series_id_element.text, self.sanitize(series_name_element.text)
 
     def get_episode_title(self, series_id, season_index, episode_index):
-        response = requests.get(self.API_OP_GET_EPISODE.format(series_id, season_index, episode_index))
+        response = requests.get(self.api_key, self.API_OP_GET_EPISODE.format(series_id, season_index, episode_index))
 
         if response.status_code != 200:
             return None
