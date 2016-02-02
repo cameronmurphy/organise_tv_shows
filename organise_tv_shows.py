@@ -53,7 +53,7 @@ class TVDBClient:
         return series_id_element.text, self.sanitize(series_name_element.text)
 
     def get_episode_title(self, series_id, season_index, episode_index):
-        response = requests.get(self.api_key, self.API_OP_GET_EPISODE.format(series_id, season_index, episode_index))
+        response = requests.get(self.API_OP_GET_EPISODE.format(self.api_key, series_id, season_index, episode_index))
 
         if response.status_code != 200:
             return None
