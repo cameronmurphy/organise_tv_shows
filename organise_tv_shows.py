@@ -86,7 +86,7 @@ class PushoverClient:
 
 
 class MediaOrganiser:
-    SRC_FILENAME_REGEX_SXXEX = '([A-Za-z0-9\_\.\- ]+)[\._ ][Ss]([0-9]{1,2})[\._ \-]?[Ee]([0-9]{1,2})([^\\/]*)'
+    SRC_FILENAME_REGEX_SXXEXX = '([A-Za-z0-9\_\.\- ]+)[\._ ][Ss]([0-9]{1,2})[\._ \-]?[Ee]([0-9]{1,2})([^\\/]*)'
     SRC_FILENAME_REGEX_XxXX = '([A-Za-z0-9\_\.\- ]+)[\._ ]([0-9]{1,2})[\._ \-]?x([0-9]{1,2})([^\\/]*)'
     EPISODE_NAME_FORMAT = '{1} - {3}x{4:02d} - {5}{6}'
     DESTINATION_PATH_FORMAT = '{0}/{1}{2}/Season {3}/' + EPISODE_NAME_FORMAT
@@ -170,7 +170,7 @@ class MediaOrganiser:
 
                     filename_without_extension, extension = os.path.splitext(filename_without_extension)
 
-                match = re.search(self.SRC_FILENAME_REGEX_SXXEX, filename_without_extension)
+                match = re.search(self.SRC_FILENAME_REGEX_SXXEXX, filename_without_extension)
 
                 if match is None:
                     match = re.search(self.SRC_FILENAME_REGEX_XxXX, filename_without_extension)
