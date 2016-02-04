@@ -166,6 +166,7 @@ class MediaOrganiser:
                         md5_hash = md5_file.read().lower().strip()
 
                     # Strip .md5 extension
+                    filename = filename[:-4]
                     full_path = full_path[:-4]
 
                     if self.md5_for_file(full_path) != md5_hash:
