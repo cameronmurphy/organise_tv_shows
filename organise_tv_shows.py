@@ -169,7 +169,7 @@ class MediaOrganiser:
                     filename = filename[:-4]
                     full_path = full_path[:-4]
 
-                    if self.md5_for_file(full_path) != md5_hash:
+                    if not os.path.exists(full_path) or self.md5_for_file(full_path) != md5_hash:
                         continue
 
                     filename_without_extension, extension = os.path.splitext(filename_without_extension)
