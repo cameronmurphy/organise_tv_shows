@@ -268,7 +268,7 @@ def main():
         script_path = os.path.dirname(os.path.realpath(__file__))
         config_file_location = '%s/%s' % (script_path, config_file_location)
 
-    config_document = yaml.load(open(config_file_location, 'r'))
+    config_document = yaml.load(open(config_file_location, 'r'), Loader=yaml.FullLoader)
     parameters = validate_config(config_document, os.path.basename(config_file_location))
     pushover_client = None
 
