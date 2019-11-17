@@ -8,7 +8,7 @@ parameters:
 #    pushover:
 #        token:     '2VLYupzlHvpeP9STtoj14llF2YcJ4B'
 #        user_key:  '6kMh5eOOOKFSlLXTSmxv5A2eNImccK'
-#        device:    'cam-nexus-6p'                   # Optional
+#        device:    'pixel-4-xl'                     # Optional
 #        ignore_hd: false                            # Optional (defaults to false), prevents sending out notifications for HD episodes
 
 #    # When a show is named differently to how thetvdb.com expects, override the title here

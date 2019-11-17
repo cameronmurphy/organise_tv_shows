@@ -1,88 +1,9 @@
-#!/usr/bin/env python3
-
-import argparse
+import datetime
+import hashlib
 import os
 import re
-import hashlib
 import shutil
-import datetime
-import requests
-import yaml
 import sys
-import xml.etree.ElementTree as ElementTree
-from config import validate_config
-
-DEFAULT_PARAMETERS_FILENAME = 'organise_tv_shows.config.yml'
-
-
-class TVDBClient:
-    API_DOMAIN = 'https://thetvdb.com'
-    API_OP_GET_SERIES = API_DOMAIN + '/api/GetSeries.php?seriesname='
-    API_OP_GET_EPISODE = API_DOMAIN + '/api/{0}/series/{1}/default/{2}/{3}'
-    API_SERIES_ID_XPATH = './Series/seriesid'
-    API_SERIES_NAME_XPATH = './Series/SeriesName'
-    API_EPISODE_NAME_XPATH = './Episode/EpisodeName'
-
-    def __init__(self, api_key):
-        self.api_key = api_key
-
-    @staticmethod
-    def sanitize(string):
-        # Handle unicode RIGHT SINGLE QUOTATION MARK
-        string = string.replace(u'\u2019', u'\'')
-        # Support all file systems, no slashes
-        string = string.replace('/', ' + ')
-        # Support Windows filesystem (no ? or :)
-        string = string.replace(': ', ' - ').replace(':', '.').replace('?', '')
-        string = string.strip()
-        return string
-
-    def get_series_info(self, series_name):
-        response = requests.get(self.API_OP_GET_SERIES + series_name.replace(' ', '%20'))
-
-        if response.status_code != 200:
-            return None, None
-
-        root = ElementTree.fromstring(response.content)
-        series_id_element = root.find(self.API_SERIES_ID_XPATH)
-        series_name_element = root.find(self.API_SERIES_NAME_XPATH)
-
-        if series_id_element is None or series_name_element is None:
-            return None, None
-
-        return series_id_element.text, self.sanitize(series_name_element.text)
-
-    def get_episode_title(self, series_id, season_index, episode_index):
-        response = requests.get(self.API_OP_GET_EPISODE.format(self.api_key, series_id, season_index, episode_index))
-
-        if response.status_code != 200:
-            return None
-
-        root = ElementTree.fromstring(response.content)
-        episode_name = root.find(self.API_EPISODE_NAME_XPATH).text
-
-        return self.sanitize(episode_name)
-
-
-class PushoverClient:
-    API_OP_SEND = 'https://api.pushover.net/1/messages.json'
-
-    def __init__(self, api_token, api_user_key):
-        self.api_token = api_token
-        self.api_user_key = api_user_key
-
-    def send(self, message, device_name=None):
-        pushover_params = {'token': self.api_token, 'user': self.api_user_key, 'message': message}
-
-        if device_name is not None:
-            pushover_params['device'] = device_name
-
-        response = requests.post(self.API_OP_SEND, pushover_params)
-
-        if response.status_code != 200:
-            sys.stderr.write(
-                'api.pushover.net returned {0}, content: {1}\n'.format(response.status_code, response.content)
-            )
 
 
 class MediaOrganiser:
@@ -248,48 +169,3 @@ class MediaOrganiser:
 
                 if self.pushover_client is not None and (not self.pushover_ignore_hd or len(hd_filename_part) == 0):
                     self.pushover_client.send(current_episode_name, self.pushover_device)
-
-
-def main():
-    arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument(
-        '--config-file',
-        help='config file location (if not %s)' % DEFAULT_PARAMETERS_FILENAME
-    )
-
-    args = arg_parser.parse_args()
-    config_file_location = args.config_file if (args.config_file is not None) else DEFAULT_PARAMETERS_FILENAME
-
-    if len(config_file_location) == 0:
-        raise RuntimeError('--config-file option must not be empty')
-
-    # Only prepend script path when config file is not an absolute path
-    if config_file_location[0] != '/':
-        script_path = os.path.dirname(os.path.realpath(__file__))
-        config_file_location = '%s/%s' % (script_path, config_file_location)
-
-    config_document = yaml.load(open(config_file_location, 'r'), Loader=yaml.FullLoader)
-    parameters = validate_config(config_document, os.path.basename(config_file_location))
-    pushover_client = None
-
-    if parameters['pushover'] is not None:
-        pushover_client = PushoverClient(parameters['pushover']['token'], parameters['pushover']['user_key'])
-
-    organiser = MediaOrganiser(
-        parameters['complete_downloads_path'],
-        parameters['library_path'],
-        TVDBClient(parameters['tvdb_api_key']),
-        parameters['series_title_overrides'],
-        parameters['series_season_offsets'],
-        parameters['md5_check'],
-        pushover_client,
-        parameters['pushover']['device']
-        if parameters['pushover'] is not None and 'device' in parameters['pushover'] else None,
-        parameters['pushover']['ignore_hd']
-        if parameters['pushover'] is not None and 'ignore_hd' in parameters['pushover'] else False
-    )
-
-    organiser.process()
-
-if __name__ == '__main__':
-    main()
