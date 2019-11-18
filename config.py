@@ -10,14 +10,28 @@ def validate_config(document, filename):
     if 'library_path' not in parameters_dict or not len(parameters_dict['library_path']) > 0:
         raise RuntimeError('{0}: parameters.library_path node is required'.format(filename))
 
-    if 'tvdb_api_key' not in parameters_dict or not len(parameters_dict['tvdb_api_key']) > 0:
-        raise RuntimeError('{0}: parameters.tvdb_api_key node is required'.format(filename))
-
     if 'md5_check' in parameters_dict:
         if parameters_dict['md5_check'] is not None and not isinstance(parameters_dict['md5_check'], bool):
             raise RuntimeError('{0}: parameters.md5_check node is must be true or false')
     else:
         parameters_dict['md5_check'] = False
+
+    if 'tvdb' not in parameters_dict:
+        raise RuntimeError('{0}: parameters.tvdb node is required'.format(filename))
+
+    if not isinstance(parameters_dict['tvdb'], dict):
+        raise RuntimeError('{0}: parameters.tvdb node must be a dictionary'.format(filename))
+
+    tvdb_dict = parameters_dict['tvdb']
+
+    if 'api_key' not in tvdb_dict or not len(tvdb_dict['api_key']) > 0:
+        raise RuntimeError('{0}: parameters.tvdb.api_key node is required'.format(filename))
+
+    if 'user_key' not in tvdb_dict or not len(tvdb_dict['user_key']) > 0:
+        raise RuntimeError('{0}: parameters.tvdb.user_key node is required'.format(filename))
+
+    if 'username' not in tvdb_dict or not len(tvdb_dict['username']) > 0:
+        raise RuntimeError('{0}: parameters.tvdb.username node is required'.format(filename))
 
     if 'pushover' in parameters_dict:
         if parameters_dict['pushover'] is not None:

@@ -1,20 +1,20 @@
 import requests
-import xml.etree.ElementTree as ElementTree
 
 
 class TVDBClient:
-    API_DOMAIN = 'https://thetvdb.com'
-    API_OP_GET_SERIES = API_DOMAIN + '/api/GetSeries.php?seriesname='
-    API_OP_GET_EPISODE = API_DOMAIN + '/api/{0}/series/{1}/default/{2}/{3}'
-    API_SERIES_ID_XPATH = './Series/seriesid'
-    API_SERIES_NAME_XPATH = './Series/SeriesName'
-    API_EPISODE_NAME_XPATH = './Episode/EpisodeName'
+    DOMAIN = 'https://api.thetvdb.com'
+    OP_LOGIN = DOMAIN + '/login'
+    OP_SEARCH_SERIES = DOMAIN + '/search/series'
+    OP_GET_EPISODES = DOMAIN + '/series/{0}/episodes/query'
 
-    def __init__(self, api_key):
+    def __init__(self, api_key, user_key, username):
         self.api_key = api_key
+        self.user_key = user_key
+        self.username = username
+        self.token = None
 
     @staticmethod
-    def sanitize(string):
+    def __sanitize(string):
         # Handle unicode RIGHT SINGLE QUOTATION MARK
         string = string.replace(u'\u2019', u'\'')
         # Support all file systems, no slashes
@@ -24,28 +24,52 @@ class TVDBClient:
         string = string.strip()
         return string
 
-    def get_series_info(self, series_name):
-        response = requests.get(self.API_OP_GET_SERIES + series_name.replace(' ', '%20'))
+    def __authenticated_get_request(self, url, params):
+        if self.token is None:
+            raise RuntimeError('Cannot perform request, TVDB not logged in')
 
-        if response.status_code != 200:
-            return None, None
-
-        root = ElementTree.fromstring(response.content)
-        series_id_element = root.find(self.API_SERIES_ID_XPATH)
-        series_name_element = root.find(self.API_SERIES_NAME_XPATH)
-
-        if series_id_element is None or series_name_element is None:
-            return None, None
-
-        return series_id_element.text, self.sanitize(series_name_element.text)
-
-    def get_episode_title(self, series_id, season_index, episode_index):
-        response = requests.get(self.API_OP_GET_EPISODE.format(self.api_key, series_id, season_index, episode_index))
+        response = requests.get(url, params=params, headers={'Authorization': 'Bearer {0}'.format(self.token)})
 
         if response.status_code != 200:
             return None
 
-        root = ElementTree.fromstring(response.content)
-        episode_name = root.find(self.API_EPISODE_NAME_XPATH).text
+        try:
+            json = response.json()
+        except ValueError:
+            return None
 
-        return self.sanitize(episode_name)
+        return json
+
+    def login(self):
+        response = requests.post(self.OP_LOGIN, json={
+            'apikey': self.api_key,
+            'userkey': self.user_key,
+            'username': self.username
+        })
+
+        if response.status_code != 200:
+            raise RuntimeError('Could not login to TVDB API, status: {0}, error: {1}'.format(
+                response.status_code,
+                response.json()
+            ))
+
+        response_decoded = response.json()
+
+        if 'token' not in response_decoded or not len(response_decoded['token']) > 0:
+            raise RuntimeError('TVDB API login response is missing token: {0}'.format(response_decoded))
+
+        self.token = response_decoded['token']
+
+    def get_series_info(self, series_name):
+        response = self.__authenticated_get_request(self.OP_SEARCH_SERIES, {'name': series_name})
+        series_data = response['data'][0]
+        return series_data['id'], self.__sanitize(series_data['seriesName'])
+
+    def get_episode_title(self, series_id, season_index, episode_index):
+        response = self.__authenticated_get_request(
+            self.OP_GET_EPISODES.format(series_id),
+            {'airedSeason': season_index, 'airedEpisode': episode_index}
+        )
+
+        episode_data = response['data'][0]
+        return self.__sanitize(episode_data['episodeName'])

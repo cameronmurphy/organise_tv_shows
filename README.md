@@ -19,5 +19,5 @@ Running
 -------
 Pass the directory to python3
 ```bash
-$ python3 ./organise-tv-shows
+$ python ./organise-tv-shows
 ```

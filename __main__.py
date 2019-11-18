@@ -31,6 +31,14 @@ def main():
 
     config_document = yaml.load(open(config_file_location, 'r'), Loader=yaml.FullLoader)
     parameters = validate_config(config_document, os.path.basename(config_file_location))
+
+    tvdb_client = TVDBClient(
+        parameters['tvdb']['api_key'],
+        parameters['tvdb']['user_key'],
+        parameters['tvdb']['username']
+    )
+    tvdb_client.login()
+
     pushover_client = None
 
     if parameters['pushover'] is not None:
@@ -39,7 +47,7 @@ def main():
     organiser = MediaOrganiser(
         parameters['complete_downloads_path'],
         parameters['library_path'],
-        TVDBClient(parameters['tvdb_api_key']),
+        tvdb_client,
         parameters['series_title_overrides'],
         parameters['series_season_offsets'],
         parameters['md5_check'],

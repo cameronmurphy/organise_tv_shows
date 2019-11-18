@@ -1,8 +1,12 @@
 parameters:
     complete_downloads_path: '/Users/cam/Downloads/Complete'
     library_path:            '/Volumes/TV Shows'
-    tvdb_api_key:            'A5292584A1E3E114'
     md5_check:               false
+
+    tvdb:
+        api_key:  '4AE8B6F2-3B95-52F5-0C8D-E6E86109D08C'
+        user_key: '6EE1BA7DEF2026.13600950'
+        username: 'username'
 
 #    # If you want push notifications when episodes complete (example creds are fake)
 #    pushover:
