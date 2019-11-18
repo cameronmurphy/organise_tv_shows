@@ -65,4 +65,4 @@ target/
 .idea/
 
 # Config files
-*.config.yml
+*config.yml
