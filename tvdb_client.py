@@ -1,3 +1,4 @@
+import re
 import requests
 
 
@@ -23,6 +24,10 @@ class TVDBClient:
         string = string.replace(': ', ' - ').replace(':', '.').replace('?', '')
         string = string.strip()
         return string
+
+    @staticmethod
+    def __strip_special_chars(string):
+        return re.sub('[^A-Za-z0-9]+', '', string)
 
     def __authenticated_get_request(self, url, params):
         if self.token is None:
@@ -66,7 +71,16 @@ class TVDBClient:
         if response is None:
             return None, None
 
-        series_data = response['data'][0]
+        series_results = [
+            series for series in response['data']
+            if self.__strip_special_chars(series['seriesName']).lower() ==
+            self.__strip_special_chars(series_name.lower())
+        ]
+
+        if len(series_results) != 1:
+            return None, None
+
+        series_data = series_results[0]
         return series_data['id'], self.__sanitize(series_data['seriesName'])
 
     def get_episode_title(self, series_id, season_index, episode_index):
