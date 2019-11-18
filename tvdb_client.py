@@ -62,6 +62,10 @@ class TVDBClient:
 
     def get_series_info(self, series_name):
         response = self.__authenticated_get_request(self.OP_SEARCH_SERIES, {'name': series_name})
+
+        if response is None:
+            return None, None
+
         series_data = response['data'][0]
         return series_data['id'], self.__sanitize(series_data['seriesName'])
 
@@ -70,6 +74,9 @@ class TVDBClient:
             self.OP_GET_EPISODES.format(series_id),
             {'airedSeason': season_index, 'airedEpisode': episode_index}
         )
+
+        if response is None:
+            return None
 
         episode_data = response['data'][0]
         return self.__sanitize(episode_data['episodeName'])
