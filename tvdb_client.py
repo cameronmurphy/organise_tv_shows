@@ -74,7 +74,7 @@ class TVDBClient:
         series_results = [
             series for series in response['data']
             if self.__strip_special_chars(series['seriesName']).lower() ==
-            self.__strip_special_chars(series_name.lower())
+            self.__strip_special_chars(series_name).lower()
         ]
 
         if len(series_results) != 1:
