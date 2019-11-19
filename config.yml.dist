@@ -16,14 +16,10 @@ parameters:
 #        ignore_hd: false                            # Optional (defaults to false), prevents sending out notifications for HD episodes
 
 #    # When a show is named differently to how thetvdb.com expects, override the title here
-#    # These are real examples of differences between showrss.info and thetvdb.com
+#    # This is a real example of a difference between showrss.info and thetvdb.com
 #    series_title_overrides:
 #        - match:       'once upon a time'
 #          replacement: 'once upon a time 2011'
-#        - match:       'scandal us'
-#          replacement: 'scandal 2012'
-#        - match:       'marvels agents of s h i e l d'
-#          replacement: 'marvels agents of s.h.i.e.l.d.'
 
 #    # When the releases for a given show refer to the current season as an earlier season than thetvdb.com
 #    series_season_offsets:
