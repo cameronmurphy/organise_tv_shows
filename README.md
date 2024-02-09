@@ -18,6 +18,7 @@ Configure the values in config.yml.
 
 Running
 -------
+Run the app. If you're running from outside the app's directory, pass the path to the app instead of '.' below.
 ```bash
-$ pipenv run ./organise-tv-shows
+$ pipenv run python .
 ```

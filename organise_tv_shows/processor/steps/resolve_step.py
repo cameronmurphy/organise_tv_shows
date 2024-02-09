@@ -12,29 +12,39 @@ class ResolveStep(Step):
 
     @staticmethod
     def __strip_special_chars(string):
-        return re.sub('[^A-Za-z0-9]+', '', string)
+        return re.sub('[^A-Za-z0-9&]+', '', string)
+
+    def __names_match(self, name_a: str, name_b: str) -> bool:
+        return self.__strip_special_chars(name_a).lower() == self.__strip_special_chars(name_b).lower()
+
+    def __find_exact_series_result(self, results, series_name):
+        for series in results:
+            if self.__names_match(series['name'], series_name) or \
+                    any(
+                        self.__names_match(alias, series_name)
+                        for alias in (series['aliases'] if 'aliases' in series else [])
+                    ):
+                return series
+
+            return None
 
     def __resolve_series(self, media):
         results = self.tvdb_client.search(media.series_name, type='series')
+        result = self.__find_exact_series_result(results, media.series_name)
 
-        # Find exactly matching result
-        results = [
-            series for series in results
-            if self.__strip_special_chars(series['name']).lower() ==
-            self.__strip_special_chars(media.series_name).lower()
-        ]
+        if not result:
+            ampersand_series_name = re.sub(rf'(?i)and', '&', media.series_name)
+            result = self.__find_exact_series_result(results, ampersand_series_name)
 
-        if len(results) != 1:
-            return None
-
-        return results[0]
+        return result
 
     def __resolve_episode(self, series, media: Media):
         result = self.tvdb_client.get_series_episode(
             series['tvdb_id'],
             media.season_no,
             media.episode_no,
-            str(media.series_config.season_type or 'default'),
+            'default' if media.series_config is None or media.series_config.season_type is None else
+            str(media.series_config.season_type)
         )
 
         if not result:
