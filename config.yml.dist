@@ -1,31 +1,26 @@
-parameters:
+config:
     complete_downloads_path: '/Users/cam/Downloads/Complete'
-    library_path:            '/Volumes/TV Shows'
-    md5_check:               false
-
+    library_path:            '/Volumes/Media/TV Shows'
     tvdb:
-        api_key:  '4AE8B6F2-3B95-52F5-0C8D-E6E86109D08C'
-        user_key: '6EE1BA7DEF2026.13600950'
-        username: 'username'
+        api_key:  'YOUR-TVDB-API-KEY'
 
-#    # If you want push notifications when episodes complete (example creds are fake)
+#    # If you want push notifications when episodes complete
 #    pushover:
-#        token:     '2VLYupzlHvpeP9STtoj14llF2YcJ4B'
-#        user_key:  '6kMh5eOOOKFSlLXTSmxv5A2eNImccK'
-#        device:    'pixel-4-xl'                     # Optional
-#        ignore_hd: false                            # Optional (defaults to false), prevents sending out notifications for HD episodes
+#        token:     'your-pushover-token'
+#        user_key:  'your-user-key'
+#        device:    'iphone'                         # Optional
 
-#    # When a show is named differently to how thetvdb.com expects, override the title here
-#    # This is a real example of a difference between showrss.info and thetvdb.com
-#    series_title_overrides:
-#        - match:       'once upon a time'
-#          replacement: 'once upon a time 2011'
+#    # Override things that relate to certain series
+#    series_config:
+#        - name: 'futurama'
+#          season_type: 'dvd'    # Optional, accepts 'default', 'official', 'dvd', 'absolute', 'alternative', 'regional'
+#          aliases:
+#              - 'futurama 1999' # Match downloads with these series aliases as just 'futurama'
+#              - 'futurama USA'
 
-#    # When the releases for a given show refer to the current season as an earlier season than thetvdb.com
-#    series_season_offsets:
-#        # Production season 1 of American Dad! is 23 episodes but it was split after the 7th episode of Season 1 when
-#        # it aired. This will translate S01E08 -> S02E01, S01E09 -> S02E02 etc. After Season 2 only the season index
-#        # will be translated i.e. S02E01 -> S03E01. You can specify multiple 'split points' for a given series_id.
-#        - series_id:           73141
-#          since_season_index:  1
-#          since_episode_index: 7
+#    md5_check: true # Optional, if your media is coming out of a virtual machine (like mine), the file copy might not
+#                    # be complete when this tool runs. To guard against moving the file while it is still being written
+#                    # to, put a file beside the media file to validate the contents, i.e. the md5 hash of
+#                    # Futurama.S01E01.mp4 would reside in a file named Futurama.S01E01.mp4.md5 and the actual media
+#                    # file will only be moved when the hashes match. The md5 file will be cleaned up after the media
+#                    # file is moved.

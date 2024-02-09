@@ -1,11 +1,12 @@
 organise-tv-shows
 =================
-A python3 script to organise episodes of TV shows into your library. Requires requests library.
+A python script to organise episodes of TV shows into your library.
 
 Install requirements
 --------------------
 ```bash
-$ pip install -r requirements.txt
+$ brew bundle
+$ pipenv install
 ```
 
 Configure
@@ -17,7 +18,6 @@ Configure the values in config.yml.
 
 Running
 -------
-Pass the directory to python3
 ```bash
-$ python ./organise-tv-shows
+$ pipenv run python .
 ```
