@@ -18,7 +18,7 @@ class MatchStep(Step):
             sys.stderr.write(f'{datetime.now()}: Could not match {media.filename}\n')
             return False
 
-        media.set_series_name(match.group(1))
+        media.set_parsed_series_name(match.group(1))
         media.set_season_no(int(match.group(2)))
         media.set_episode_no(int(match.group(3)))
 

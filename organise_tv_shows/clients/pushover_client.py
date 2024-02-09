@@ -3,14 +3,14 @@ import sys
 
 
 class PushoverClient:
-    API_OP_SEND = 'https://api.pushover.net/1/messages.json'
+    API_OP_SEND: str = 'https://api.pushover.net/1/messages.json'
 
-    def __init__(self, api_token, api_user_key, device_name=None):
+    def __init__(self, api_token: str, api_user_key: str, device_name: str = None):
         self.api_token = api_token
         self.api_user_key = api_user_key
         self.device_name = device_name
 
-    def send(self, message):
+    def send(self, message: str):
         pushover_params = {'token': self.api_token, 'user': self.api_user_key, 'message': message}
 
         if self.device_name is not None:

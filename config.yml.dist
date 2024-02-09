@@ -1,21 +1,26 @@
 config:
     complete_downloads_path: '/Users/cam/Downloads/Complete'
     library_path:            '/Volumes/Media/TV Shows'
-    md5_check:               false
-
     tvdb:
         api_key:  'YOUR-TVDB-API-KEY'
 
 #    # If you want push notifications when episodes complete
 #    pushover:
 #        token:     'your-pushover-token'
-#        user_key:  '6kMh5eOOOKFSlLXTSmxv5A2eNImccK'
+#        user_key:  'your-user-key'
 #        device:    'iphone'                         # Optional
 
 #    # Override things that relate to certain series
 #    series_config:
 #        - name: 'futurama'
-#          season_type: 'dvd'                          # Optional, accepts 'default', 'official', 'dvd', 'absolute', 'alternative', 'regional'
+#          season_type: 'dvd'    # Optional, accepts 'default', 'official', 'dvd', 'absolute', 'alternative', 'regional'
 #          aliases:
-#              - 'futurama 1999'                       # Match downloads with these series aliases as just 'futurama'
+#              - 'futurama 1999' # Match downloads with these series aliases as just 'futurama'
 #              - 'futurama USA'
+
+#    md5_check: true # Optional, if your media is coming out of a virtual machine (like mine), the file copy might not
+#                    # be complete when this tool runs. To guard against moving the file while it is still being written
+#                    # to, put a file beside the media file to validate the contents, i.e. the md5 hash of
+#                    # Futurama.S01E01.mp4 would reside in a file named Futurama.S01E01.mp4.md5 and the actual media
+#                    # file will only be moved when the hashes match. The md5 file will be cleaned up after the media
+#                    # file is moved.

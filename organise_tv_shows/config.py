@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Literal
 import yaml
 from pydantic import BaseModel
 
@@ -20,9 +20,16 @@ class SeriesTitleOverride(BaseModel):
 
 
 class SeriesConfig(BaseModel):
-    series_id: str
-    since_season_index: int
-    since_episode_index: int
+    name: str
+    season_type: Optional[Literal[
+        'default',
+        'official',
+        'dvd',
+        'absolute',
+        'alternative',
+        'regional'
+    ]] = None
+    aliases: Optional[List[str]] = None
 
 
 class Config(BaseModel):
