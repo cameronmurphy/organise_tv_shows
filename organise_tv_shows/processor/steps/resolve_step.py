@@ -34,6 +34,7 @@ class ResolveStep(Step):
 
         if not result:
             ampersand_series_name = re.sub(rf'(?i)and', '&', media.series_name)
+            results = self.tvdb_client.search(ampersand_series_name, type='series')
             result = self.__find_exact_series_result(results, ampersand_series_name)
 
         return result
