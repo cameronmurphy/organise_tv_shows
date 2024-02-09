@@ -11,12 +11,6 @@ class PushoverConfig(BaseModel):
     token: str
     user_key: str
     device: Optional[str] = None
-    ignore_hd: Optional[bool] = False
-
-
-class SeriesTitleOverride(BaseModel):
-    match: str
-    replacement: str
 
 
 class SeriesConfig(BaseModel):
