@@ -8,14 +8,14 @@ config:
 #    pushover:
 #        token:     'your-pushover-token'
 #        user_key:  'your-user-key'
-#        device:    'iphone'                         # Optional
+#        device:    'iphone'              # Optional
 
 #    # Override things that relate to certain series
 #    series_config:
 #        - name: 'futurama'
 #          season_type: 'dvd'    # Optional, accepts 'default', 'official', 'dvd', 'absolute', 'alternative', 'regional'
 #          aliases:
-#              - 'futurama 1999' # Match downloads with these series aliases as just 'futurama'
+#              - 'futurama 1999' # Optional, force downloads with these series names to match 'futurama'
 #              - 'futurama USA'
 
 #    md5_check: true # Optional, if your media is coming out of a virtual machine (like mine), the file copy might not
