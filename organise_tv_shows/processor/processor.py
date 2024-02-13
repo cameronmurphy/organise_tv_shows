@@ -33,7 +33,7 @@ class Processor:
         self.config = config
 
     def process(self):
-        for filename in os.listdir(self.config.complete_downloads_path):
+        for filename in sorted(os.listdir(self.config.complete_downloads_path)):
             path = os.path.join(self.config.complete_downloads_path, filename)
             media = Media(filename, path)
 
