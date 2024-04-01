@@ -3,7 +3,7 @@ A python script to organise episodes of TV shows into your library.
 
 ## Installation (macOS)
 ```shell
-$ brew instal asdf
+$ brew install asdf
 ```
 [Configure your shell](https://asdf-vm.com/guide/getting-started.html#_3-install-asdf) for asdf. You will need to
 restart your terminal session.
