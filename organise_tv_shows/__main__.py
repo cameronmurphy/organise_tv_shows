@@ -9,3 +9,7 @@ def main():
 
     processor = Processor(config)
     processor.process()
+
+
+if __name__ == '__main__':
+    main()

@@ -2,6 +2,7 @@ import argparse
 import os
 
 DEFAULT_CONFIG_FILENAME = 'config.yml'
+DEFAULT_CONFIG_DIR = '~/.config/organise_tv_shows'
 
 
 def get_args():
@@ -20,6 +21,10 @@ def get_args():
 
     # Support relative paths
     if not os.path.isabs(config_file):
-        config_file = os.path.join(os.path.dirname(os.path.realpath(__file__ + '/..')), config_file)
+        config_file = os.path.join(DEFAULT_CONFIG_DIR, config_file)
+
+    # Support homedir paths
+    if config_file.startswith('~'):
+        config_file = os.path.expanduser(config_file)
 
     return {'config_file': config_file}
