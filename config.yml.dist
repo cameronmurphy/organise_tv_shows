@@ -18,9 +18,9 @@ config:
 #              - 'futurama 1999' # Optional, force downloads with these series names to match 'futurama'
 #              - 'futurama USA'
 
-#    md5_check: true # Optional, if your media is coming out of a virtual machine (like mine), the file copy might not
-#                    # be complete when this tool runs. To guard against moving the file while it is still being written
-#                    # to, put a file beside the media file to validate the contents, i.e. the md5 hash of
-#                    # Futurama.S01E01.mp4 would reside in a file named Futurama.S01E01.mp4.md5 and the actual media
-#                    # file will only be moved when the hashes match. The md5 file will be cleaned up after the media
-#                    # file is moved.
+#    hash_check: true # Optional, if your media is coming out of a virtual machine (like mine), the file copy might not
+#                     # be complete when this tool runs. To guard against moving the file while it is still being
+#                     # written to, put a file beside the media file to validate the contents, i.e. the BLAKE2B hash of
+#                     # Futurama.S01E01.mp4 would reside in a file named Futurama.S01E01.mp4.hash and the actual media
+#                     # file will only be moved when the hashes match. The hash file will be cleaned up after the media
+#                     # file is moved.

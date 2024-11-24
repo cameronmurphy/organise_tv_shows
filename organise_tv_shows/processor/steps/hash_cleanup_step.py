@@ -3,12 +3,12 @@ import os
 from organise_tv_shows.processor.steps.step import Step
 
 
-class Md5CleanupStep(Step):
+class HashCleanupStep(Step):
     def process(self, media, config) -> bool:
-        if not config.md5_check:
+        if not config.hash_check:
             return True
 
-        if os.path.isfile(media.path + '.md5'):
-            os.remove(media.path + '.md5')
+        if os.path.isfile(media.path + '.hash'):
+            os.remove(media.path + '.hash')
 
         return True

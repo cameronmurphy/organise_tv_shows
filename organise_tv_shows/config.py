@@ -29,7 +29,7 @@ class SeriesConfig(BaseModel):
 class Config(BaseModel):
     complete_downloads_path: str
     library_path: str
-    md5_check: Optional[bool] = False
+    hash_check: Optional[bool] = False
     tvdb: TVDBConfig
     pushover: Optional[PushoverConfig] = None
     series_config: Optional[List[SeriesConfig]] = None
