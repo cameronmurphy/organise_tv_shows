@@ -22,9 +22,10 @@ class MatchStep(Step):
         media.set_season_no(int(match.group(2)))
         media.set_episode_no(int(match.group(3)))
 
-        hd_res_match = re.search(r'(2160p|1080p|720p)', media.filename_without_extension, re.I)
+        if config.hd_res_naming:
+            hd_res_match = re.search(r'(2160p|1080p|720p)', media.filename_without_extension, re.I)
 
-        if hd_res_match:
-            media.set_hd_res(hd_res_match.group(0))
+            if hd_res_match:
+                media.set_hd_res(hd_res_match.group(0))
 
         return True

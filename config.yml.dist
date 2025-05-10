@@ -1,6 +1,7 @@
 config:
     complete_downloads_path: '/Users/cam/Downloads/Complete'
     library_path:            '/Volumes/Media/TV Shows'
+    hd_res_naming:           false # Enable to add 720p/1080p/2160p at the end of series directory names
     tvdb:
         api_key:  'YOUR-TVDB-API-KEY'
 
