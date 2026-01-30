@@ -3,13 +3,12 @@ A python script to organise episodes of TV shows into your library.
 
 ## Installation (macOS)
 ```sh
-$ brew install asdf
+$ brew install mise
 ```
-[Configure your shell](https://asdf-vm.com/guide/getting-started.html#_3-install-asdf) for asdf. You will need to
+Ensure `mise activate` is [in your shell rc/profile](https://mise.jdx.dev/cli/activate.html). If it needed to be added,
 restart your terminal session.
 ```sh
-$ asdf plugin add python
-$ asdf install
+$ mise install
 $ pip install .
 ```
 
