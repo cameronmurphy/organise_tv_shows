@@ -61,7 +61,7 @@ class ResolveStep(Step):
         series = self.__resolve_series(media)
 
         if not series:
-            sys.stderr.write(
+            sys.stdout.write(
                 f'{datetime.now()}: Could not resolve series \'{media.series_name}\', file \'{media.filename}\'\n'
             )
             return False
@@ -71,7 +71,7 @@ class ResolveStep(Step):
         episode = self.__resolve_episode(series, media)
 
         if not episode:
-            sys.stderr.write(
+            sys.stdout.write(
                 f'{datetime.now()}: Could not resolve episode {media.episode_no}, season {media.season_no}, ' +
                 f'series \'{media.series_name}\', file \'{media.filename}\'\n'
             )
